@@ -81,7 +81,7 @@
             font-weight: 900;
         }
         
-        /* Subtítulo - CAMBIADO A "STICKERS" */
+        /* Subtítulo - STICKERS */
         .subtitle {
             font-family: 'Bebas Neue', cursive;
             font-size: 2.8vw; /* Ligeramente más grande para "STICKERS" */
@@ -126,27 +126,6 @@
             pointer-events: none;
         }
         
-        /* Información de ayuda para ajustes */
-        .help-info {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            z-index: 4;
-            max-width: 300px;
-            border-left: 3px solid #FF4500; /* Color que coincide con "STICKERS" */
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        
-        .help-info:hover {
-            opacity: 1;
-        }
-        
         /* Responsive para dispositivos móviles */
         @media (max-width: 768px) {
             .main-title {
@@ -162,10 +141,6 @@
             
             .fullscreen-image {
                 transform: translate(-50%, -50%) scale(1.05);
-            }
-            
-            .help-info {
-                display: none; /* Ocultar ayuda en móviles para mayor limpieza */
             }
         }
         
@@ -245,14 +220,6 @@
         <h1 class="main-title">PEGATINA</h1>
         <div class="subtitle">STICKERS</div>
     </div>
-    
-    <!-- Información de ayuda -->
-    <div class="help-info">
-        <strong>PEGATINA - STICKERS</strong><br>
-        1. Para ajustar el desbordamiento, modifica "scale(1.1)" en .fullscreen-image<br>
-        2. Cambia "object-fit: cover" por "contain" para ver la imagen completa<br>
-        3. El subtítulo ahora dice "STICKERS" como solicitaste
-    </div>
 
     <script>
         // Esperar a que la página se cargue completamente
@@ -283,76 +250,6 @@
                 setTimeout(function() {
                     loadingElement.classList.add('hidden');
                 }, 3000);
-            });
-            
-            // Control con teclado para ajustes en tiempo real (solo para desarrollo)
-            let scale = 1.1;
-            let brightness = 0.9;
-            let contrast = 1.1;
-            
-            document.addEventListener('keydown', function(e) {
-                // Solo activar si se presiona la tecla Alt (para no interferir con navegación normal)
-                if (e.altKey) {
-                    e.preventDefault();
-                    
-                    switch(e.key) {
-                        case '+':
-                        case '=':
-                            scale += 0.05;
-                            break;
-                        case '-':
-                        case '_':
-                            scale = Math.max(0.5, scale - 0.05);
-                            break;
-                        case 'b':
-                            brightness = Math.min(1.5, brightness + 0.05);
-                            break;
-                        case 'B':
-                            brightness = Math.max(0.5, brightness - 0.05);
-                            break;
-                        case 'c':
-                            contrast = Math.min(2.0, contrast + 0.05);
-                            break;
-                        case 'C':
-                            contrast = Math.max(0.5, contrast - 0.05);
-                            break;
-                        case 'r':
-                        case 'R':
-                            // Reset a valores predeterminados
-                            scale = 1.1;
-                            brightness = 0.9;
-                            contrast = 1.1;
-                            break;
-                        default:
-                            return; // Salir si no es una tecla de control
-                    }
-                    
-                    // Aplicar los cambios
-                    backgroundImage.style.transform = `translate(-50%, -50%) scale(${scale})`;
-                    backgroundImage.style.filter = `brightness(${brightness}) contrast(${contrast})`;
-                    
-                    // Mostrar valores actuales en consola
-                    console.log(`Escala: ${scale.toFixed(2)}, Brillo: ${brightness.toFixed(2)}, Contraste: ${contrast.toFixed(2)}`);
-                    
-                    // Mostrar temporalmente los valores en pantalla
-                    const helpInfo = document.querySelector('.help-info');
-                    const originalContent = helpInfo.innerHTML;
-                    helpInfo.innerHTML = `<strong>Ajustes:</strong><br>Escala: ${scale.toFixed(2)}<br>Brillo: ${brightness.toFixed(2)}<br>Contraste: ${contrast.toFixed(2)}`;
-                    helpInfo.style.background = 'rgba(0, 100, 0, 0.8)';
-                    
-                    setTimeout(function() {
-                        helpInfo.innerHTML = originalContent;
-                        helpInfo.style.background = 'rgba(0, 0, 0, 0.7)';
-                    }, 2000);
-                }
-            });
-            
-            // Ocultar información de ayuda al hacer clic en ella
-            document.querySelector('.help-info').addEventListener('click', function() {
-                this.style.opacity = '0';
-                setTimeout(() => {
-                    this.style.display = 'none';
-                }, 300);
             });
         });
     </script>
