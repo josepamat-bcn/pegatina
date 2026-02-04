@@ -3,676 +3,358 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pega sin Pegas - Próximamente</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>PEGATINA - Stickers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
     <style>
+        /* Reset y configuración básica */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
         }
         
-        body {
-            background-color: #111;
-            color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 150, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 200, 255, 0.05) 0%, transparent 20%);
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: sans-serif;
+            background-color: #000;
         }
         
-        /* Fondo con efecto de pared de ladrillos */
-        .wall-background {
+        /* Contenedor de la imagen con efecto de desbordamiento */
+        .image-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(to right, #222 1px, transparent 1px),
-                linear-gradient(to bottom, #222 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -2;
-            opacity: 0.3;
-        }
-        
-        /* Efectos de grafiti en el fondo */
-        .graffiti-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.1;
-        }
-        
-        .graffiti-bg div {
-            position: absolute;
-            font-size: 120px;
-            font-weight: bold;
-            color: transparent;
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
-            transform: rotate(-30deg);
-        }
-        
-        .graffiti-1 {
-            top: 10%;
-            left: 5%;
-        }
-        
-        .graffiti-2 {
-            bottom: 15%;
-            right: 5%;
-            transform: rotate(15deg) !important;
-        }
-        
-        .graffiti-3 {
-            top: 40%;
-            left: 60%;
-            transform: rotate(45deg) !important;
-        }
-        
-        /* Contenedor principal */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
             z-index: 1;
+            overflow: hidden;
         }
         
-        /* Encabezado */
-        header {
+        /* Imagen de fondo a pantalla completa */
+        .fullscreen-image {
+            /* Configuración para que la imagen desborde y ocupe toda la pantalla */
             width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 2px solid #ff3366;
+            height: 100%;
+            object-fit: cover; /* Cubre toda el área, puede recortar partes de la imagen */
+            /* Para contener toda la imagen sin recortar (pero puede dejar espacios):
+               object-fit: contain; */
+            
+            /* Ajustes adicionales para controlar posición y escala */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.1); /* Escalado para efecto de desbordamiento */
+            
+            /* Filtro opcional para mejorar contraste con el texto */
+            filter: brightness(0.9) contrast(1.1);
         }
         
-        .logo {
-            font-size: 28px;
-            font-weight: 900;
-            background: linear-gradient(45deg, #ff3366, #00ccff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .tagline {
-            font-size: 14px;
-            color: #aaa;
-            font-style: italic;
-            letter-spacing: 1px;
-        }
-        
-        /* Contenido principal */
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 1;
+        /* Contenedor del título superpuesto */
+        .title-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
             text-align: center;
-            padding: 40px 0;
             width: 100%;
+            pointer-events: none; /* Permite hacer clic a través del texto */
         }
         
         /* Título principal */
         .main-title {
-            font-size: 5.5rem;
-            font-weight: 900;
+            font-family: 'Anton', sans-serif;
+            font-size: 12vw; /* Tamaño responsivo basado en el ancho de la ventana */
+            color: white;
             text-transform: uppercase;
-            margin-bottom: 30px;
-            letter-spacing: 4px;
-            position: relative;
+            letter-spacing: 8px;
+            text-shadow: 
+                3px 3px 0 #000,
+                -3px -3px 0 #000,
+                3px -3px 0 #000,
+                -3px 3px 0 #000,
+                0 0 15px rgba(0, 0, 0, 0.8),
+                0 0 30px rgba(0, 0, 0, 0.5);
+            margin: 0;
             line-height: 1;
+            font-weight: 900;
         }
         
-        .title-gradient {
-            background: linear-gradient(45deg, #ff3366, #ffcc00, #00ccff, #33ff66);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            background-size: 300% 300%;
-            animation: gradientMove 8s ease infinite;
-            text-shadow: 3px 3px 0 #000, 6px 6px 0 rgba(255, 51, 102, 0.2);
+        /* Subtítulo - CAMBIADO A "STICKERS" */
+        .subtitle {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.8vw; /* Ligeramente más grande para "STICKERS" */
+            color: #FF4500; /* Color naranja-rojizo para destacar */
+            text-shadow: 
+                2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                0 0 10px rgba(0, 0, 0, 0.7);
+            margin-top: 1.5vw;
+            letter-spacing: 5px; /* Más espacio entre letras */
+            opacity: 0.95;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px 15px;
+            display: inline-block;
+            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* Imagen principal */
-        .main-image {
-            width: 100%;
-            max-width: 800px;
-            margin: 30px 0;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
-            position: relative;
-            border: 8px solid #222;
-        }
-        
-        .main-image::before {
-            content: "";
-            position: absolute;
+        /* Indicador de carga (se oculta cuando la imagen se carga) */
+        .loading {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(255, 51, 102, 0.2), rgba(0, 204, 255, 0.2));
-            z-index: 1;
-            mix-blend-mode: overlay;
-        }
-        
-        .main-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-        
-        .main-image:hover img {
-            transform: scale(1.03);
-        }
-        
-        /* Mensaje "Próximamente" */
-        .coming-soon {
-            font-size: 4rem;
-            font-weight: 900;
-            margin: 40px 0;
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .coming-soon-text {
-            color: #fff;
-            text-shadow: 
-                3px 3px 0 #ff3366,
-                6px 6px 0 #000,
-                9px 9px 0 rgba(255, 51, 102, 0.5);
-            letter-spacing: 3px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        /* Contador regresivo */
-        .countdown {
+            background-color: #000;
+            z-index: 3;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-        
-        .countdown-item {
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid #ff3366;
-            border-radius: 10px;
-            padding: 15px;
-            min-width: 100px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
-        }
-        
-        .countdown-value {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #ff3366;
-            text-shadow: 2px 2px 0 #000;
-        }
-        
-        .countdown-label {
-            font-size: 0.9rem;
-            color: #aaa;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-        }
-        
-        /* Pie de página */
-        footer {
-            width: 100%;
-            padding: 20px 0;
-            text-align: center;
-            border-top: 2px solid #00ccff;
-            margin-top: 40px;
-            display: flex;
-            flex-direction: column;
             align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: opacity 0.5s ease;
         }
         
-        .social-icons {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 15px;
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
         
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #222;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            border: 1px solid #444;
+        /* Información de ayuda para ajustes */
+        .help-info {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            z-index: 4;
+            max-width: 300px;
+            border-left: 3px solid #FF4500; /* Color que coincide con "STICKERS" */
+            opacity: 0.8;
+            transition: opacity 0.3s;
         }
         
-        .social-icon:hover {
-            transform: translateY(-5px);
-            background: #ff3366;
+        .help-info:hover {
+            opacity: 1;
         }
         
-        .copyright {
-            color: #777;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive */
+        /* Responsive para dispositivos móviles */
         @media (max-width: 768px) {
             .main-title {
-                font-size: 3.5rem;
+                font-size: 18vw;
+                letter-spacing: 4px;
             }
             
-            .coming-soon {
-                font-size: 2.5rem;
+            .subtitle {
+                font-size: 5.5vw;
+                letter-spacing: 3px;
+                padding: 4px 12px;
             }
             
-            .countdown-item {
-                min-width: 70px;
+            .fullscreen-image {
+                transform: translate(-50%, -50%) scale(1.05);
             }
             
-            .countdown-value {
-                font-size: 1.8rem;
+            .help-info {
+                display: none; /* Ocultar ayuda en móviles para mayor limpieza */
             }
         }
         
         @media (max-width: 480px) {
             .main-title {
-                font-size: 2.5rem;
+                font-size: 22vw;
                 letter-spacing: 2px;
             }
             
-            .coming-soon {
-                font-size: 1.8rem;
-            }
-            
-            .countdown {
-                gap: 10px;
-            }
-            
-            .countdown-item {
-                min-width: 60px;
-                padding: 10px;
-            }
-            
-            .countdown-value {
-                font-size: 1.5rem;
-            }
-            
-            .logo {
-                font-size: 22px;
+            .subtitle {
+                font-size: 6.5vw;
+                letter-spacing: 2px;
+                padding: 3px 10px;
             }
         }
         
-        /* Efectos de spray */
-        .spray-effect {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(255, 51, 102, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            z-index: -1;
+        /* Efecto de parpadeo sutil para el subtítulo */
+        @keyframes subtle-pulse {
+            0%, 100% { 
+                opacity: 0.95;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.03);
+            }
         }
         
-        .spray-1 {
-            top: 10%;
-            left: 5%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 204, 255, 0.1) 0%, transparent 70%);
+        .subtitle {
+            animation: subtle-pulse 3s infinite ease-in-out;
         }
         
-        .spray-2 {
-            bottom: 10%;
-            right: 5%;
-            width: 250px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(255, 204, 0, 0.1) 0%, transparent 70%);
+        /* Efecto de destello para el subtítulo "STICKERS" */
+        @keyframes sticker-flash {
+            0%, 100% { 
+                color: #FF4500;
+                text-shadow: 
+                    2px 2px 0 #000,
+                    -2px -2px 0 #000,
+                    2px -2px 0 #000,
+                    -2px 2px 0 #000,
+                    0 0 10px rgba(0, 0, 0, 0.7);
+            }
+            50% { 
+                color: #FFD700;
+                text-shadow: 
+                    2px 2px 0 #000,
+                    -2px -2px 0 #000,
+                    2px -2px 0 #000,
+                    -2px 2px 0 #000,
+                    0 0 15px rgba(255, 215, 0, 0.5);
+            }
         }
         
-        /* Nota para GitHub */
-        .github-note {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #333;
-            border-radius: 5px;
-            padding: 15px;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #aaa;
-            max-width: 600px;
-            text-align: left;
-        }
-        
-        .github-note a {
-            color: #ff3366;
-            text-decoration: none;
-        }
-        
-        .github-note a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Indicador de carga de imagen */
-        .image-loading {
-            display: inline-block;
-            padding: 10px 20px;
-            background: rgba(255, 51, 102, 0.2);
-            border-radius: 5px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-        
-        .image-loading i {
-            margin-right: 8px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Mensaje de error de imagen */
-        .image-error {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff0000;
-            border-radius: 5px;
-            padding: 15px;
-            margin-top: 10px;
-            color: #ff6666;
-            text-align: left;
-            max-width: 600px;
-        }
-        
-        .image-error a {
-            color: #ffcc00;
-            text-decoration: underline;
-        }
-        
-        /* Solución alternativa para imagen */
-        .image-solution {
-            background: rgba(0, 200, 255, 0.1);
-            border: 1px solid #00ccff;
-            border-radius: 5px;
-            padding: 15px;
-            margin-top: 10px;
-            color: #00ccff;
-            text-align: left;
-            max-width: 600px;
-        }
-        
-        .image-solution code {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-family: monospace;
-            display: block;
-            margin: 5px 0;
-            word-break: break-all;
+        .subtitle {
+            animation: subtle-pulse 3s infinite ease-in-out, sticker-flash 4s infinite ease-in-out;
         }
     </style>
 </head>
 <body>
-    <!-- Fondo con efecto de pared -->
-    <div class="wall-background"></div>
-    
-    <!-- Efectos de spray -->
-    <div class="spray-effect spray-1"></div>
-    <div class="spray-effect spray-2"></div>
-    
-    <!-- Grafitis de fondo -->
-    <div class="graffiti-bg">
-        <div class="graffiti-1">GRAFITI</div>
-        <div class="graffiti-2">URBAN</div>
-        <div class="graffiti-3">STYLE</div>
+    <!-- Indicador de carga -->
+    <div class="loading" id="loading">
+        <div>Cargando PEGATINA...</div>
     </div>
     
-    <!-- Contenedor principal -->
-    <div class="container">
-        <!-- Encabezado -->
-        <header>
-            <div class="logo">Urban Style</div>
-            <div class="tagline">El arte urbano en su máxima expresión</div>
-        </header>
-        
-        <!-- Contenido principal -->
-        <main class="main-content">
-            <!-- Título principal -->
-            <h1 class="main-title">
-                <span class="title-gradient">Pega sin Pegas</span>
-            </h1>
-            
-            <!-- Imagen principal -->
-            <div class="main-image">
-                <img id="mainImage" src="https://drive.google.com/uc?export=view&id=1fZNdMvKzHbC3JLP_e8ljIjFHLBZOVgjp" 
-                     alt="Pega sin Pegas - Arte Urbano"
-                     onerror="imageFailedToLoad()">
-            </div>
-            
-            <!-- Indicador de carga -->
-            <div id="imageLoading" class="image-loading">
-                <i class="fas fa-spinner"></i> Cargando imagen desde Google Drive...
-            </div>
-            
-            <!-- Mensaje de error (oculto inicialmente) -->
-            <div id="imageError" class="image-error" style="display: none;">
-                <strong><i class="fas fa-exclamation-triangle"></i> Error al cargar la imagen</strong>
-                <p>La imagen desde Google Drive no se pudo cargar. Esto sucede porque Google Drive bloquea el acceso directo desde páginas web.</p>
-                <p><strong>Solución:</strong> Por favor, sube la imagen a un servicio como <a href="https://imgbb.com/" target="_blank">imgBB.com</a> y reemplaza el enlace en el código.</p>
-            </div>
-            
-            <!-- Solución alternativa -->
-            <div class="image-solution">
-                <strong><i class="fas fa-lightbulb"></i> Para usar tu imagen en GitHub Pages:</strong>
-                <p>1. Sube tu imagen a <a href="https://imgbb.com/" target="_blank">imgBB.com</a> (gratis)</p>
-                <p>2. Copia el enlace directo que te den</p>
-                <p>3. Reemplaza esta línea en el código (línea 348):</p>
-                <code>src="https://drive.google.com/uc?export=view&id=1fZNdMvKzHbC3JLP_e8ljIjFHLBZOVgjp"</code>
-                <p>4. Sube el archivo HTML actualizado a GitHub</p>
-            </div>
-            
-            <!-- Mensaje "Próximamente" -->
-            <div class="coming-soon">
-                <div class="coming-soon-text">Próximamente</div>
-            </div>
-            
-            <!-- Contador regresivo -->
-            <div class="countdown">
-                <div class="countdown-item">
-                    <div class="countdown-value" id="days">00</div>
-                    <div class="countdown-label">Días</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-value" id="hours">00</div>
-                    <div class="countdown-label">Horas</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-value" id="minutes">00</div>
-                    <div class="countdown-label">Minutos</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-value" id="seconds">00</div>
-                    <div class="countdown-label">Segundos</div>
-                </div>
-            </div>
-            
-            <!-- Nota para GitHub -->
-            <div class="github-note">
-                <p><i class="fas fa-info-circle"></i> <strong>Para GitHub Pages:</strong> Sube este archivo HTML a un repositorio y activa GitHub Pages en Settings > Pages.</p>
-                <p><i class="fab fa-github"></i> <strong>Nombre del archivo:</strong> Asegúrate de que se llame <code>index.html</code> para que funcione como página principal.</p>
-            </div>
-        </main>
-        
-        <!-- Pie de página -->
-        <footer>
-            <div class="social-icons">
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
-            </div>
-            <div class="copyright">
-                &copy; 2023 Pega sin Pegas. Todos los derechos reservados. | Diseño urbano y grafiti.
-            </div>
-        </footer>
+    <!-- Contenedor de la imagen -->
+    <div class="image-container">
+        <!-- IMAGEN DE GRAFFITI - URL CORRECTA -->
+        <img src="https://github.com/josepamat-bcn/pegatina/blob/main/graffiti%20web.png?raw=true" 
+             alt="Fondo de graffiti para PEGATINA" 
+             class="fullscreen-image" 
+             id="background-image">
+    </div>
+    
+    <!-- Título superpuesto -->
+    <div class="title-overlay">
+        <h1 class="main-title">PEGATINA</h1>
+        <div class="subtitle">STICKERS</div>
+    </div>
+    
+    <!-- Información de ayuda -->
+    <div class="help-info">
+        <strong>PEGATINA - STICKERS</strong><br>
+        1. Para ajustar el desbordamiento, modifica "scale(1.1)" en .fullscreen-image<br>
+        2. Cambia "object-fit: cover" por "contain" para ver la imagen completa<br>
+        3. El subtítulo ahora dice "STICKERS" como solicitaste
     </div>
 
     <script>
-        // Contador regresivo (configurado para una fecha futura)
-        function updateCountdown() {
-            const targetDate = new Date();
-            targetDate.setDate(targetDate.getDate() + 30); // 30 días desde hoy
-            
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-            
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            document.getElementById("days").textContent = days.toString().padStart(2, '0');
-            document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
-            
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById("days").textContent = "00";
-                document.getElementById("hours").textContent = "00";
-                document.getElementById("minutes").textContent = "00";
-                document.getElementById("seconds").textContent = "00";
-            }
-        }
-        
-        // Inicializar el contador
-        updateCountdown();
-        const countdownInterval = setInterval(updateCountdown, 1000);
-        
-        // Efecto de escritura en el título
+        // Esperar a que la página se cargue completamente
         document.addEventListener('DOMContentLoaded', function() {
-            const title = document.querySelector('.title-gradient');
-            const originalText = title.textContent;
-            title.textContent = '';
+            const backgroundImage = document.getElementById('background-image');
+            const loadingElement = document.getElementById('loading');
             
-            let i = 0;
-            function typeWriter() {
-                if (i < originalText.length) {
-                    title.textContent += originalText.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 100);
+            // Ocultar indicador de carga cuando la imagen se haya cargado
+            backgroundImage.addEventListener('load', function() {
+                // Pequeña pausa para que se vea el indicador de carga
+                setTimeout(function() {
+                    loadingElement.classList.add('hidden');
+                    
+                    // Pequeño efecto de entrada para el título
+                    const titleOverlay = document.querySelector('.title-overlay');
+                    titleOverlay.style.opacity = '0';
+                    titleOverlay.style.transition = 'opacity 1s ease';
+                    
+                    setTimeout(function() {
+                        titleOverlay.style.opacity = '1';
+                    }, 200);
+                }, 500);
+            });
+            
+            // En caso de error al cargar la imagen
+            backgroundImage.addEventListener('error', function() {
+                loadingElement.innerHTML = '<div>Error al cargar la imagen. Verifica la URL.</div>';
+                setTimeout(function() {
+                    loadingElement.classList.add('hidden');
+                }, 3000);
+            });
+            
+            // Control con teclado para ajustes en tiempo real (solo para desarrollo)
+            let scale = 1.1;
+            let brightness = 0.9;
+            let contrast = 1.1;
+            
+            document.addEventListener('keydown', function(e) {
+                // Solo activar si se presiona la tecla Alt (para no interferir con navegación normal)
+                if (e.altKey) {
+                    e.preventDefault();
+                    
+                    switch(e.key) {
+                        case '+':
+                        case '=':
+                            scale += 0.05;
+                            break;
+                        case '-':
+                        case '_':
+                            scale = Math.max(0.5, scale - 0.05);
+                            break;
+                        case 'b':
+                            brightness = Math.min(1.5, brightness + 0.05);
+                            break;
+                        case 'B':
+                            brightness = Math.max(0.5, brightness - 0.05);
+                            break;
+                        case 'c':
+                            contrast = Math.min(2.0, contrast + 0.05);
+                            break;
+                        case 'C':
+                            contrast = Math.max(0.5, contrast - 0.05);
+                            break;
+                        case 'r':
+                        case 'R':
+                            // Reset a valores predeterminados
+                            scale = 1.1;
+                            brightness = 0.9;
+                            contrast = 1.1;
+                            break;
+                        default:
+                            return; // Salir si no es una tecla de control
+                    }
+                    
+                    // Aplicar los cambios
+                    backgroundImage.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                    backgroundImage.style.filter = `brightness(${brightness}) contrast(${contrast})`;
+                    
+                    // Mostrar valores actuales en consola
+                    console.log(`Escala: ${scale.toFixed(2)}, Brillo: ${brightness.toFixed(2)}, Contraste: ${contrast.toFixed(2)}`);
+                    
+                    // Mostrar temporalmente los valores en pantalla
+                    const helpInfo = document.querySelector('.help-info');
+                    const originalContent = helpInfo.innerHTML;
+                    helpInfo.innerHTML = `<strong>Ajustes:</strong><br>Escala: ${scale.toFixed(2)}<br>Brillo: ${brightness.toFixed(2)}<br>Contraste: ${contrast.toFixed(2)}`;
+                    helpInfo.style.background = 'rgba(0, 100, 0, 0.8)';
+                    
+                    setTimeout(function() {
+                        helpInfo.innerHTML = originalContent;
+                        helpInfo.style.background = 'rgba(0, 0, 0, 0.7)';
+                    }, 2000);
                 }
-            }
+            });
             
-            // Iniciar efecto de escritura después de un breve retraso
-            setTimeout(typeWriter, 500);
-            
-            // Verificar si la imagen se cargó correctamente
-            checkImageLoad();
-        });
-        
-        // Efecto de movimiento en los grafitis de fondo
-        document.addEventListener('mousemove', function(e) {
-            const graffitiElements = document.querySelectorAll('.graffiti-bg div');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            graffitiElements.forEach((el, index) => {
-                const speed = 0.02 + (index * 0.01);
-                const xMove = x * speed * 100;
-                const yMove = y * speed * 100;
-                
-                el.style.transform = `rotate(${index % 2 === 0 ? '-' : ''}30deg) translate(${xMove}px, ${yMove}px)`;
+            // Ocultar información de ayuda al hacer clic en ella
+            document.querySelector('.help-info').addEventListener('click', function() {
+                this.style.opacity = '0';
+                setTimeout(() => {
+                    this.style.display = 'none';
+                }, 300);
             });
         });
-        
-        // Función para verificar si la imagen se cargó
-        function checkImageLoad() {
-            const img = document.getElementById('mainImage');
-            const loadingIndicator = document.getElementById('imageLoading');
-            
-            // Ocultar el indicador de carga después de 3 segundos
-            setTimeout(function() {
-                loadingIndicator.style.display = 'none';
-            }, 3000);
-            
-            // Si la imagen ya está cargada, ocultar el indicador
-            if (img.complete) {
-                loadingIndicator.style.display = 'none';
-            } else {
-                img.onload = function() {
-                    loadingIndicator.style.display = 'none';
-                };
-            }
-        }
-        
-        // Función para manejar error de carga de imagen
-        function imageFailedToLoad() {
-            document.getElementById('imageLoading').style.display = 'none';
-            document.getElementById('imageError').style.display = 'block';
-            
-            // Usar una imagen de respaldo
-            document.getElementById('mainImage').src = "https://images.unsplash.com/photo-1541535650810-10d26f5c2ab3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
-        }
-        
-        // Función para cambiar la imagen manualmente
-        function changeImage(newUrl) {
-            const img = document.getElementById('mainImage');
-            const loadingIndicator = document.getElementById('imageLoading');
-            const errorMessage = document.getElementById('imageError');
-            
-            // Mostrar indicador de carga
-            loadingIndicator.style.display = 'block';
-            errorMessage.style.display = 'none';
-            
-            // Intentar cargar la nueva imagen
-            img.src = newUrl;
-            
-            // Configurar eventos para la nueva imagen
-            img.onload = function() {
-                loadingIndicator.style.display = 'none';
-            };
-            
-            img.onerror = function() {
-                imageFailedToLoad();
-            };
-        }
     </script>
 </body>
 </html>
